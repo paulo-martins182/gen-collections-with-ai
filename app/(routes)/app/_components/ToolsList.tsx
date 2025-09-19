@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const AiTools = [
@@ -8,7 +9,7 @@ const AiTools = [
     description:
       "Generate product images high quality, professional product instantly with AI.",
     bannerSrc: "/product-image.png",
-    link: "/",
+    link: "/ai-tools/product-image",
   },
   {
     name: "AI Products Video",
@@ -40,7 +41,9 @@ export default function ToolsList() {
             <div>
               <h2 className="font-bold text-2xl">{tool.name}</h2>
               <p className="opacity-60 mt-2">{tool.description}</p>
-              <Button className="mt-4 "> Create Now </Button>
+              <Link href={tool.link}>
+                <Button className="mt-4 "> Create Now </Button>
+              </Link>
             </div>
 
             <Image
