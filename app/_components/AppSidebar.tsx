@@ -11,9 +11,23 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import {
+  Calendar,
+  Home,
+  Images,
+  Inbox,
+  Megaphone,
+  Search,
+  Settings,
+  Wallet2,
+  WandSparkles,
+} from "lucide-react";
 import Image from "next/image";
 import { useParams, usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { useAuthContext } from "../provider";
+import ProfileAvatar from "./ProfileAvatar";
 
 const items = [
   {
@@ -22,29 +36,31 @@ const items = [
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
+    title: "AI Tools",
+    url: "/ai-tools",
+    icon: WandSparkles,
   },
   {
-    title: "Calendar",
+    title: "My Collections",
     url: "#",
-    icon: Calendar,
+    icon: Images,
   },
   {
-    title: "Search",
+    title: "Upgrade",
     url: "#",
-    icon: Search,
+    icon: Wallet2,
   },
   {
-    title: "Settings",
+    title: "Profile",
     url: "#",
     icon: Settings,
   },
 ];
 
 export function AppSidebar() {
+  const { user } = useAuthContext();
   const path = usePathname();
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -62,7 +78,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className="mt-5">
+            <SidebarMenu className="mt-5 text-center pl-3">
               {items.map((item, index) => (
                 // <SidebarMenuItem key={item.title} className='p-2'>
                 //     <SidebarMenuButton asChild className=''>
@@ -87,6 +103,16 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
+        {!!user ? (
+          <div className="flex justify-between items-center pt-2 px-4 w-full bg-zinc-700 rounded-lg">
+            <h2>Profile</h2>
+            <ProfileAvatar />
+          </div>
+        ) : (
+          <Link href={"/login"} className="w-full mb-3">
+            <Button className="w-full">Sign In </Button>
+          </Link>
+        )}
         <h2 className="p-2 text-gray-400 text-sm">Copyright @PauloMartin</h2>
       </SidebarFooter>
     </Sidebar>

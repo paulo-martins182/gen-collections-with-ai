@@ -11,9 +11,7 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden shadow-lg rounded-2xl">
         <CardContent className="grid p-0 md:grid-cols-2 h-[500px]">
-          {/* Left Side - Google Login */}
           <div className="relative flex flex-col items-center justify-center p-8 text-center gap-6 bg-white">
-            {/* Decorative shapes */}
             <div className="absolute top-4 left-4 h-16 w-16 rounded-full bg-pink-200 opacity-70 blur-2xl"></div>
             <div className="absolute bottom-6 right-6 h-20 w-20 rounded-full bg-blue-200 opacity-60 blur-2xl"></div>
 
@@ -48,14 +46,12 @@ export function LoginForm({
             </Authentication>
           </div>
 
-          {/* Right Side - Image */}
           <div className="relative hidden md:block">
             <img
-              src="/login.jpg" // replace with illustration or stock photo
+              src="/login.jpg"
               alt="Login illustration"
               className="absolute inset-0 h-[500px] w-full object-cover rounded-r-2xl"
             />
-            {/* subtle overlay for vibrance */}
             <div className="absolute inset-0 bg-white/20 mix-blend-overlay"></div>
           </div>
         </CardContent>
