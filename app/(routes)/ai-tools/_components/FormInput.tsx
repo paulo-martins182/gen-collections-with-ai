@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import {
   ImagePlusIcon,
+  Loader2Icon,
   RectangleHorizontal,
   RectangleVertical,
   Sparkle,
@@ -18,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { InputChangeHandler } from "@/app/_types/creation-types";
 
 const sampleProduct = [
   "/headphone.png",
@@ -41,7 +43,17 @@ const SelectOptions = [
   },
 ];
 
-export default function FormInput() {
+type FormInputProps = {
+  onHandleInputChange?: InputChangeHandler;
+  onGenerateImage?: () => void;
+  loading: boolean;
+};
+
+export default function FormInput({
+  onHandleInputChange = () => null,
+  onGenerateImage = () => null,
+  loading,
+}: FormInputProps) {
   const [preview, setPreview] = useState<string | null>(null);
 
   const onFileSelect = (files: FileList | null) => {
@@ -54,6 +66,7 @@ export default function FormInput() {
       return;
     }
 
+    onHandleInputChange("file", file);
     setPreview(URL.createObjectURL(file));
   };
 
@@ -103,7 +116,10 @@ export default function FormInput() {
               width={100}
               height={100}
               className="w-[60px] h-[60px] rounded-lg cursor-pointer hover:scale-105 transition-transform object-contain"
-              onClick={() => setPreview(item)}
+              onClick={() => {
+                setPreview(item);
+                onHandleInputChange("imageUrl", item);
+              }}
             />
           ))}
         </div>
@@ -114,13 +130,14 @@ export default function FormInput() {
           <Textarea
             placeholder="tell me more about product and how you want to display"
             className="min-h-[150px] mt-5"
+            onChange={(e) => onHandleInputChange("description", e.target.value)}
           />
         </div>
 
         <div className="mt-8">
           <h2 className="font-semibold ">Select image size</h2>
 
-          <Select>
+          <Select onValueChange={(value) => onHandleInputChange("size", value)}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select resolution" />
             </SelectTrigger>
@@ -139,8 +156,13 @@ export default function FormInput() {
       </div>
 
       <div className="w-full flex flex-col gap-2 text-center">
-        <Button className="w-full mt-8">
-          <Sparkle /> Generate
+        <Button
+          className="w-full mt-8"
+          onClick={onGenerateImage}
+          disabled={loading}
+        >
+          {loading ? <Loader2Icon className="animate-spin" /> : <Sparkle />}{" "}
+          Generate
         </Button>
         <span className="opacity-35 text-sm">10 credits to generate</span>
       </div>
